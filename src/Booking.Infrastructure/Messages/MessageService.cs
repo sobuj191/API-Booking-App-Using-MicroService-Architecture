@@ -16,7 +16,7 @@ namespace Booking.Infrastructure.Messages
             Email email = new Email();
             if (email.IsValidEmail(message.To))
             {
-                return email.SendEmail(message.To, "", "", message.Subject, message.Body);
+                return email.SendEmail(message.To, MessageCredential.EmailAddress, MessageCredential.AppPassword, message.Subject, message.Body);
             }
             return false;
         }

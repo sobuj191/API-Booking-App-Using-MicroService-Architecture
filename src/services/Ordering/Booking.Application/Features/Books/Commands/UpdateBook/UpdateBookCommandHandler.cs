@@ -22,8 +22,10 @@ namespace Booking.Application.Features.Books.Commands.UpdateBook
         }
         public async Task<bool> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
         {
-            var order=_mapper.Map<BookModel>(request);
-            return await _bookRepository.UpdateAsync(order);
+            var book=_mapper.Map<BookModel>(request);
+            book.UpdatedBy="Sobuj";
+            book.UpdateDate=DateTime.Now;
+            return await _bookRepository.UpdateAsync(book);
         }
     }
 }

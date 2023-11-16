@@ -25,14 +25,16 @@ namespace Booking.Application.Features.Books.Commands.CreateBook
         }
         public async Task<bool> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
-            var order = _mapper.Map<BookModel>(request);
-            bool isBookPlaced= await _bookRepository.AddAsync(order);
+            var book = _mapper.Map<BookModel>(request);
+            book.CreatedBy="Sobuj";
+            book.CreatedDate=DateTime.Now;
+            bool isBookPlaced= await _bookRepository.AddAsync(book);
             if (isBookPlaced)
             {
                 Message message = new Message();
                 message.Subject = "Your booked has been placed";
-                message.To = order.UserName;
-                message.Body = $"Dear {order.FirstName + " " + order.LastName} <br/><br/> We are excited for your booking Kazi; your booking Id #{order.Id} <br/> Thank your for your booking ";
+                message.To = book.UserName;
+                message.Body = $"Dear {book.FirstName + " " + book.LastName} <br/><br/> We are excited for your booking Kazi; your booking Id #{book.Id} <br/> Thank your for your booking ";
                 await _messageService.SendMessageAsync(message);
             }
             return isBookPlaced;
